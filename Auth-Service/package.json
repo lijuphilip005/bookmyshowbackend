@@ -3,17 +3,30 @@
   "version": "1.0.0",
   "description": "auth package.json",
   "main": "index.js",
-  "scripts": {
-    "start:ts": "tsc -w",
-    "start:js": "nodemon:dist/index.js",
-    "start": "concurrently npm:start:*"
-  },
+
+"scripts": {
+
+
+  "start": "node dist/Auth-Service/src/app.js",
+  "watch": "tsc -w",
+  "dev": "concurrently \"npm run watch\" \"nodemon dist/Auth-Service/src/app.js\""
+},
+
+
   "author": "liju",
   "license": "ISC",
   "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/express-session": "^1.18.0",
     "concurrently": "^9.1.0"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "mongoose": "^8.8.2",
     "nodemon": "^3.1.7"
   }
 }
