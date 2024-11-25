@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { config } from "dotenv";
 import { checkDbConnection, closeConnection } from "./config/db";
+import { swaggerDocs } from "./config/swagger";
 config()
 
 const app = express();
@@ -11,6 +12,8 @@ app.use(express.json());
 
 
 checkDbConnection();
+
+swaggerDocs(app, Number(PORT));
 
 // Routes
 app.get("/", (req: Request, res: Response) => {
