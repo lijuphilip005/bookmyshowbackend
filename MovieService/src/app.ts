@@ -1,4 +1,7 @@
 import express, { Request, Response } from "express";
+import { config } from "dotenv";
+import { checkDbConnection, closeConnection } from "./config/db";
+config()
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -6,15 +9,28 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 
+
+checkDbConnection();
+
 // Routes
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to Movie Service API!");
 });
 
-
-console.log('helloo woorddfkkldddddd')
-
 // Start the server
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+// Graceful shutdown
+process.on("SIGTERM", async () => {
+  console.log("Shutting down gracefully...");
+  await closeConnection();
+  server.close(() => console.log("Server closed."));
+});
+
+process.on("SIGINT", async () => {
+  console.log("Application interrupted. Closing...");
+  await closeConnection();
+  server.close(() => console.log("Server closed."));
 });
