@@ -1,8 +1,10 @@
 import { config } from 'dotenv';
 import {Pool} from 'pg'
+import {drizzle} from 'drizzle-orm/node-postgres'
 config()
 // Create a new pool instance to manage connections
 
+console.log(process.env.DB_PASSWORD)
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST ,
@@ -13,6 +15,8 @@ const pool = new Pool({
 
 // Function to execute queries
 export const query = (text: string, params?: any[]) => pool.query(text, params);
+
+const db = drizzle({ client: pool });
 
 
 export const checkDbConnection = async () => {
